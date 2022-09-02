@@ -41,9 +41,9 @@ export default {
   },
   methods: {
     async getAllData(){
-      let posts = await fetch('http://jsonplaceholder.typicode.com/posts')
+      let posts = await fetch('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.json())
-      let users = await fetch('http://jsonplaceholder.typicode.com/users')
+      let users = await fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())
 
       this.posts = await posts.map(post => {
@@ -55,7 +55,6 @@ export default {
   computed:{
     sortPosts(){
       return this.filter.length>0
-        // ? this.posts.filter(item => item.author.toLowerCase() == this.filter.toLowerCase())
         ? this.posts.filter(item => item.author.toLowerCase().includes(this.filter.toLowerCase()))
         : this.posts
     },
