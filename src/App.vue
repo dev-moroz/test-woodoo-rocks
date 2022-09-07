@@ -1,26 +1,27 @@
 <template>
   <div class="container">
-    <div class="input-group input-group-sm mb-3 mt-4 mx-auto w-50">
-      <div class="input-group-prepend">
+    <div class="input-group input-group-sm mb-3 mt-4 mx-auto w-75" style="gap:8px">
+      <div class="input-group-prepen">
         <span class="input-group-text" id="inputGroup-sizing-sm">Search</span>
       </div>
-      <input type="text" class="form-control" aria-describedby="inputGroup-sizing-sm" v-model="filter">
+      <input type="text" class="form-control rounded-2" aria-describedby="inputGroup-sizing-sm" v-model="filter">
     </div>
     <template v-if="isLoaded">
-    <div v-if="nothingFound">
-      <p class="text-center">Nothing found</p>
-    </div>
-    <div class="d-flex flex-row flex-wrap align-content justify-content-center mt-2" v-else>
-      <div v-for="item,i in sortPosts" :key="i" class="m-2">
-        <AppPost :data="item" />
+      <div v-if="nothingFound">
+        <p class="text-center">Nothing found</p>
       </div>
-    </div>
+      <div class="d-flex flex-row flex-wrap align-content justify-content-center mt-2" v-else>
+        <div v-for="item in sortPosts" :key="item.id" class="m-2">
+          <AppPost :data="item" />
+        </div>
+      </div>
     </template>
     <div class="text-center mt-3" v-else>
       <div class="spinner-grow" role="status">
         <span class="sr-only"></span>
       </div>
     </div>
+
 
   </div>
 </template>
@@ -41,13 +42,13 @@ export default {
   },
   methods: {
     async getAllData(){
-      let posts = await fetch('https://jsonplaceholder.typicode.com/posts')
+      const posts = await fetch('https://jsonplaceholder.typicode.com/posts')
         .then(response => response.json())
-      let users = await fetch('https://jsonplaceholder.typicode.com/users')
+      const users = await fetch('https://jsonplaceholder.typicode.com/users')
         .then(response => response.json())
 
-      this.posts = await posts.map(post => {
-        let author = users.filter(user => user.id === post.userId)[0].name
+      this.posts = posts.map(post => {
+        const author = users.find(user => user.id === post.userId).name
         return {...post, author: author}
         })
     }
