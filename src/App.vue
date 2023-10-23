@@ -1,9 +1,8 @@
 <template>
   <div class="container">
-    <div class="input-search my-3 m-auto d-flex">
-      <label for="search">Search: </label>
-      <input id="search" type="text" v-model="filter" class="w-100">
-    </div>
+    
+    <SearchComponent :letter="filter" @input="setFilter" />
+
     <template v-if="isLoaded">
       <div v-if="nothingFound">
         <p class="text-center">Nothing found</p>
@@ -14,17 +13,16 @@
         </div>
       </div>
     </template>
-    <div class="text-center my-5" v-if="isLoadData">
-      <div class="spinner-grow" role="status">
-        <span class="sr-only"></span>
-      </div>
-    </div>
+
+    <LoaderComponent v-if="isLoadData" />
 
   </div>
 </template>
 
 <script>
 import AppPost from './components/AppPost.vue'
+import LoaderComponent from './components/Loader.vue'
+import SearchComponent from './components/Search.vue'
 
 export default {
   name: 'App',
@@ -38,7 +36,9 @@ export default {
     }
   },
   components: {
-    AppPost
+    AppPost,
+    LoaderComponent, 
+    SearchComponent
   },
   watch: {
     isLoadData: {
@@ -76,6 +76,9 @@ export default {
       const partOfHeight = (height - screenHeight) - 100
 
       if(scrolled > partOfHeight) this.isLoadData = true
+    },
+    setFilter(e){
+      if(!e.inputType) this.filter = e
     }
   },
   computed:{
