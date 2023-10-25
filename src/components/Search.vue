@@ -4,8 +4,8 @@
       <input 
         id="search"
         class="w-100"
-        :value="letter" 
-        @input="$emit('input', $event.target.value)"
+        :value="modelValue"
+        @input="$emit('update:modelValue', $event.target.value)"
       />
     </div>
 </template>
@@ -14,7 +14,7 @@
 export default{
   name: 'SearchComponent',
   props: {
-    letter: {
+    modelValue: {
       type: String
     }
   }

@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     
-    <SearchComponent :letter="filter" @input="setFilter" />
+    <SearchComponent v-model:modelValue="filter" />
 
     <template v-if="isLoaded">
       <div v-if="nothingFound">
@@ -76,9 +76,6 @@ export default {
       const partOfHeight = (height - screenHeight) - 100
 
       if(scrolled > partOfHeight) this.isLoadData = true
-    },
-    setFilter(e){
-      if(!e.inputType) this.filter = e
     }
   },
   computed:{
